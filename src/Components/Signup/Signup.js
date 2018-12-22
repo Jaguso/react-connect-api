@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {createUser} from '../../services/';
+
 
 class Signup extends Component {
 
@@ -20,8 +22,15 @@ class Signup extends Component {
     this.setState({[name]: value})
   }
 
-  onSubmit = (event) => {
+  onSubmit = async(event) => {
     event.preventDefault();
+
+    let response = {};
+    response = await createUser(this.state)
+      .catch(({response}) => alert(response.data.error.errors[0].message))
+    if(response) {
+      console.log(response.data.id)
+    }
   }
 
   render() {
